@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hal:HAL xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:hal="http://www.example.org/hal"
+    xsi:schemaLocation="http://www.example.org/hal ../../HAL/model/hal.ecore"
+    password="thisispassword"
+    address="mcgillgate">
+  <rooms name="LivingRoom">
+    <devices
+        name="deviceInLiving"/>
+  </rooms>
+  <rooms name="BedRoom"/>
+  <rules name="firstRule"
+      active="true">
+    <precondition
+        xsi:type="hal:AtomicRelationalTerm"
+        sensor="//@rooms.0/@devices.0"
+        comparedAgainstValue="10"/>
+    <actions/>
+  </rules>
+  <types xsi:type="hal:Sensor"
+      name="Tsensor"/>
+</hal:HAL>

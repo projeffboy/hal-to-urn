@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<urn:URNspec xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ucm.map="http:///ucm/map.ecore" xmlns:urn="http:///urn.ecore" name="password" author="jeffYuelin" created="March 26, 2022 at 7:18:02 PM ED" modified="March 26, 2022 at 7:20:32 PM EDT" specVersion="2" urnVersion="1.27" nextGlobalID="22">
+  <urndef>
+    <responsibilities name="turnOnHeating" respRefs="//@urndef/@specDiagrams.0/@nodes.4 //@urndef/@specDiagrams.1/@nodes.6 //@urndef/@specDiagrams.2/@nodes.8 //@urndef/@specDiagrams.2/@nodes.9"/>
+    <responsibilities name="turnOffHeating" respRefs="//@urndef/@specDiagrams.3/@nodes.14 //@urndef/@specDiagrams.3/@nodes.16"/>
+    <responsibilities name="open" respRefs="//@urndef/@specDiagrams.3/@nodes.15 //@urndef/@specDiagrams.3/@nodes.17"/>
+    <specDiagrams xsi:type="ucm.map:UCMmap" name="simple">
+      <nodes xsi:type="ucm.map:StartPoint" name="checkRule" succ="//@urndef/@specDiagrams.0/@connections.0">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" name="ruleNotTriggered" pred="//@urndef/@specDiagrams.0/@connections.1">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" name="ruleTriggered" pred="//@urndef/@specDiagrams.0/@connections.3">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:OrFork" succ="//@urndef/@specDiagrams.0/@connections.1 //@urndef/@specDiagrams.0/@connections.2" pred="//@urndef/@specDiagrams.0/@connections.0"/>
+      <nodes xsi:type="ucm.map:RespRef" contRef="//@urndef/@specDiagrams.0/@contRefs.0" succ="//@urndef/@specDiagrams.0/@connections.3" pred="//@urndef/@specDiagrams.0/@connections.2" respDef="//@urndef/@responsibilities.0">
+        <label/>
+      </nodes>
+      <contRefs xsi:type="ucm.map:ComponentRef" width="141" height="114" contDef="//@urndef/@components.0" nodes="//@urndef/@specDiagrams.0/@nodes.4">
+        <label/>
+      </contRefs>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.0" target="//@urndef/@specDiagrams.0/@nodes.3"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.3" target="//@urndef/@specDiagrams.0/@nodes.1">
+        <condition label="else"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.3" target="//@urndef/@specDiagrams.0/@nodes.4">
+        <condition label="temperature sensor #1 IN Living Room &lt; 18"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.4" target="//@urndef/@specDiagrams.0/@nodes.2"/>
+    </specDiagrams>
+    <specDiagrams xsi:type="ucm.map:UCMmap" name="compound">
+      <nodes xsi:type="ucm.map:StartPoint" name="checkRule" succ="//@urndef/@specDiagrams.1/@connections.0">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" name="ruleNotTriggered" pred="//@urndef/@specDiagrams.1/@connections.1">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" name="ruleTriggered" pred="//@urndef/@specDiagrams.1/@connections.3">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:OrJoin" succ="//@urndef/@specDiagrams.1/@connections.1" pred="//@urndef/@specDiagrams.1/@connections.4 //@urndef/@specDiagrams.1/@connections.5"/>
+      <nodes xsi:type="ucm.map:OrFork" succ="//@urndef/@specDiagrams.1/@connections.4 //@urndef/@specDiagrams.1/@connections.6" pred="//@urndef/@specDiagrams.1/@connections.0"/>
+      <nodes xsi:type="ucm.map:OrFork" succ="//@urndef/@specDiagrams.1/@connections.5 //@urndef/@specDiagrams.1/@connections.2" pred="//@urndef/@specDiagrams.1/@connections.6"/>
+      <nodes xsi:type="ucm.map:RespRef" contRef="//@urndef/@specDiagrams.1/@contRefs.0" succ="//@urndef/@specDiagrams.1/@connections.3" pred="//@urndef/@specDiagrams.1/@connections.2" respDef="//@urndef/@responsibilities.0">
+        <label/>
+      </nodes>
+      <contRefs xsi:type="ucm.map:ComponentRef" width="141" height="114" contDef="//@urndef/@components.0" nodes="//@urndef/@specDiagrams.1/@nodes.6">
+        <label/>
+      </contRefs>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.1/@nodes.0" target="//@urndef/@specDiagrams.1/@nodes.4"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.1/@nodes.3" target="//@urndef/@specDiagrams.1/@nodes.1"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.1/@nodes.5" target="//@urndef/@specDiagrams.1/@nodes.6">
+        <condition label="window IN Living Room = closed"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.1/@nodes.6" target="//@urndef/@specDiagrams.1/@nodes.2"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.1/@nodes.4" target="//@urndef/@specDiagrams.1/@nodes.3">
+        <condition label="else"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.1/@nodes.5" target="//@urndef/@specDiagrams.1/@nodes.3">
+        <condition label="else"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.1/@nodes.4" target="//@urndef/@specDiagrams.1/@nodes.5">
+        <condition label="temperature sensor #1 IN Living Room &lt; 18"/>
+      </connections>
+    </specDiagrams>
+    <specDiagrams xsi:type="ucm.map:UCMmap" name="nested">
+      <nodes xsi:type="ucm.map:StartPoint" name="checkRule" succ="//@urndef/@specDiagrams.2/@connections.0">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" name="ruleNotTriggered" pred="//@urndef/@specDiagrams.2/@connections.1">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" name="ruleTriggered" pred="//@urndef/@specDiagrams.2/@connections.3">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:OrJoin" succ="//@urndef/@specDiagrams.2/@connections.1" pred="//@urndef/@specDiagrams.2/@connections.4 //@urndef/@specDiagrams.2/@connections.5"/>
+      <nodes xsi:type="ucm.map:OrJoin" succ="//@urndef/@specDiagrams.2/@connections.6" pred="//@urndef/@specDiagrams.2/@connections.8 //@urndef/@specDiagrams.2/@connections.9"/>
+      <nodes xsi:type="ucm.map:OrFork" succ="//@urndef/@specDiagrams.2/@connections.7 //@urndef/@specDiagrams.2/@connections.8" pred="//@urndef/@specDiagrams.2/@connections.0"/>
+      <nodes xsi:type="ucm.map:OrFork" succ="//@urndef/@specDiagrams.2/@connections.4 //@urndef/@specDiagrams.2/@connections.9" pred="//@urndef/@specDiagrams.2/@connections.7"/>
+      <nodes xsi:type="ucm.map:OrFork" succ="//@urndef/@specDiagrams.2/@connections.5 //@urndef/@specDiagrams.2/@connections.2" pred="//@urndef/@specDiagrams.2/@connections.6"/>
+      <nodes xsi:type="ucm.map:RespRef" contRef="//@urndef/@specDiagrams.2/@contRefs.0" succ="//@urndef/@specDiagrams.2/@connections.10" pred="//@urndef/@specDiagrams.2/@connections.2" respDef="//@urndef/@responsibilities.0">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" contRef="//@urndef/@specDiagrams.2/@contRefs.1" succ="//@urndef/@specDiagrams.2/@connections.3" pred="//@urndef/@specDiagrams.2/@connections.10" respDef="//@urndef/@responsibilities.0">
+        <label/>
+      </nodes>
+      <contRefs xsi:type="ucm.map:ComponentRef" width="141" height="114" contDef="//@urndef/@components.0" nodes="//@urndef/@specDiagrams.2/@nodes.8">
+        <label/>
+      </contRefs>
+      <contRefs xsi:type="ucm.map:ComponentRef" width="141" height="114" contDef="//@urndef/@components.2" nodes="//@urndef/@specDiagrams.2/@nodes.9">
+        <label/>
+      </contRefs>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.0" target="//@urndef/@specDiagrams.2/@nodes.5"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.3" target="//@urndef/@specDiagrams.2/@nodes.1"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.7" target="//@urndef/@specDiagrams.2/@nodes.8">
+        <condition label="window IN Living Room = closed"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.9" target="//@urndef/@specDiagrams.2/@nodes.2"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.6" target="//@urndef/@specDiagrams.2/@nodes.3">
+        <condition label="else"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.7" target="//@urndef/@specDiagrams.2/@nodes.3">
+        <condition label="else"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.4" target="//@urndef/@specDiagrams.2/@nodes.7"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.5" target="//@urndef/@specDiagrams.2/@nodes.6">
+        <condition label="else"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.5" target="//@urndef/@specDiagrams.2/@nodes.4">
+        <condition label="temperature sensor #1 IN Living Room &lt; 18"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.6" target="//@urndef/@specDiagrams.2/@nodes.4">
+        <condition label="NOT (temperature sensor #2 IN Living Room >= 18)"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.8" target="//@urndef/@specDiagrams.2/@nodes.9"/>
+    </specDiagrams>
+    <specDiagrams xsi:type="ucm.map:UCMmap" name="complex">
+      <nodes xsi:type="ucm.map:StartPoint" name="checkRule" succ="//@urndef/@specDiagrams.3/@connections.0">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" name="ruleNotTriggered" pred="//@urndef/@specDiagrams.3/@connections.1">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" name="ruleTriggered" pred="//@urndef/@specDiagrams.3/@connections.3">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:OrJoin" succ="//@urndef/@specDiagrams.3/@connections.1" pred="//@urndef/@specDiagrams.3/@connections.4 //@urndef/@specDiagrams.3/@connections.5"/>
+      <nodes xsi:type="ucm.map:OrJoin" succ="//@urndef/@specDiagrams.3/@connections.6" pred="//@urndef/@specDiagrams.3/@connections.8 //@urndef/@specDiagrams.3/@connections.9"/>
+      <nodes xsi:type="ucm.map:OrJoin" succ="//@urndef/@specDiagrams.3/@connections.8" pred="//@urndef/@specDiagrams.3/@connections.11 //@urndef/@specDiagrams.3/@connections.12"/>
+      <nodes xsi:type="ucm.map:OrJoin" succ="//@urndef/@specDiagrams.3/@connections.10" pred="//@urndef/@specDiagrams.3/@connections.13 //@urndef/@specDiagrams.3/@connections.14"/>
+      <nodes xsi:type="ucm.map:OrFork" succ="//@urndef/@specDiagrams.3/@connections.13 //@urndef/@specDiagrams.3/@connections.15" pred="//@urndef/@specDiagrams.3/@connections.0"/>
+      <nodes xsi:type="ucm.map:OrFork" succ="//@urndef/@specDiagrams.3/@connections.14 //@urndef/@specDiagrams.3/@connections.11" pred="//@urndef/@specDiagrams.3/@connections.15"/>
+      <nodes xsi:type="ucm.map:OrFork" succ="//@urndef/@specDiagrams.3/@connections.7 //@urndef/@specDiagrams.3/@connections.12" pred="//@urndef/@specDiagrams.3/@connections.10"/>
+      <nodes xsi:type="ucm.map:OrFork" succ="//@urndef/@specDiagrams.3/@connections.4 //@urndef/@specDiagrams.3/@connections.9" pred="//@urndef/@specDiagrams.3/@connections.7"/>
+      <nodes xsi:type="ucm.map:OrJoin" succ="//@urndef/@specDiagrams.3/@connections.2" pred="//@urndef/@specDiagrams.3/@connections.17 //@urndef/@specDiagrams.3/@connections.18"/>
+      <nodes xsi:type="ucm.map:OrFork" succ="//@urndef/@specDiagrams.3/@connections.16 //@urndef/@specDiagrams.3/@connections.17" pred="//@urndef/@specDiagrams.3/@connections.6"/>
+      <nodes xsi:type="ucm.map:OrFork" succ="//@urndef/@specDiagrams.3/@connections.5 //@urndef/@specDiagrams.3/@connections.18" pred="//@urndef/@specDiagrams.3/@connections.16"/>
+      <nodes xsi:type="ucm.map:RespRef" contRef="//@urndef/@specDiagrams.3/@contRefs.0" succ="//@urndef/@specDiagrams.3/@connections.19" pred="//@urndef/@specDiagrams.3/@connections.2" respDef="//@urndef/@responsibilities.1">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" contRef="//@urndef/@specDiagrams.3/@contRefs.1" succ="//@urndef/@specDiagrams.3/@connections.20" pred="//@urndef/@specDiagrams.3/@connections.19" respDef="//@urndef/@responsibilities.2">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" contRef="//@urndef/@specDiagrams.3/@contRefs.2" succ="//@urndef/@specDiagrams.3/@connections.21" pred="//@urndef/@specDiagrams.3/@connections.20" respDef="//@urndef/@responsibilities.1">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" contRef="//@urndef/@specDiagrams.3/@contRefs.3" succ="//@urndef/@specDiagrams.3/@connections.3" pred="//@urndef/@specDiagrams.3/@connections.21" respDef="//@urndef/@responsibilities.2">
+        <label/>
+      </nodes>
+      <contRefs xsi:type="ucm.map:ComponentRef" width="141" height="114" contDef="//@urndef/@components.0" nodes="//@urndef/@specDiagrams.3/@nodes.14">
+        <label/>
+      </contRefs>
+      <contRefs xsi:type="ucm.map:ComponentRef" width="141" height="114" contDef="//@urndef/@components.1" nodes="//@urndef/@specDiagrams.3/@nodes.15">
+        <label/>
+      </contRefs>
+      <contRefs xsi:type="ucm.map:ComponentRef" width="141" height="114" contDef="//@urndef/@components.2" nodes="//@urndef/@specDiagrams.3/@nodes.16">
+        <label/>
+      </contRefs>
+      <contRefs xsi:type="ucm.map:ComponentRef" width="141" height="114" contDef="//@urndef/@components.3" nodes="//@urndef/@specDiagrams.3/@nodes.17">
+        <label/>
+      </contRefs>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.0" target="//@urndef/@specDiagrams.3/@nodes.7"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.3" target="//@urndef/@specDiagrams.3/@nodes.1"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.11" target="//@urndef/@specDiagrams.3/@nodes.14"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.17" target="//@urndef/@specDiagrams.3/@nodes.2"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.10" target="//@urndef/@specDiagrams.3/@nodes.3">
+        <condition label="else"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.13" target="//@urndef/@specDiagrams.3/@nodes.3">
+        <condition label="else"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.4" target="//@urndef/@specDiagrams.3/@nodes.12"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.9" target="//@urndef/@specDiagrams.3/@nodes.10">
+        <condition label="else"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.5" target="//@urndef/@specDiagrams.3/@nodes.4"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.10" target="//@urndef/@specDiagrams.3/@nodes.4">
+        <condition label="temperature sensor #1 IN Kitchen > 26"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.6" target="//@urndef/@specDiagrams.3/@nodes.9"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.8" target="//@urndef/@specDiagrams.3/@nodes.5">
+        <condition label="temperature sensor #1 IN Kitchen > 24"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.9" target="//@urndef/@specDiagrams.3/@nodes.5">
+        <condition label="temperature sensor #1 IN Living Room > 26"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.7" target="//@urndef/@specDiagrams.3/@nodes.6">
+        <condition label="else"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.8" target="//@urndef/@specDiagrams.3/@nodes.6">
+        <condition label="else"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.7" target="//@urndef/@specDiagrams.3/@nodes.8">
+        <condition label="temperature sensor #1 IN Living Room > 24"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.12" target="//@urndef/@specDiagrams.3/@nodes.13">
+        <condition label="else"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.12" target="//@urndef/@specDiagrams.3/@nodes.11">
+        <condition label="window IN Living Room = closed"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.13" target="//@urndef/@specDiagrams.3/@nodes.11">
+        <condition label="window IN Kitchen = closed"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.14" target="//@urndef/@specDiagrams.3/@nodes.15"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.15" target="//@urndef/@specDiagrams.3/@nodes.16"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.3/@nodes.16" target="//@urndef/@specDiagrams.3/@nodes.17"/>
+    </specDiagrams>
+    <components name="Living Room.heater" contRefs="//@urndef/@specDiagrams.0/@contRefs.0 //@urndef/@specDiagrams.1/@contRefs.0 //@urndef/@specDiagrams.2/@contRefs.0 //@urndef/@specDiagrams.3/@contRefs.0"/>
+    <components name="Living Room.window" contRefs="//@urndef/@specDiagrams.3/@contRefs.1"/>
+    <components name="Kitchen.heater" contRefs="//@urndef/@specDiagrams.2/@contRefs.1 //@urndef/@specDiagrams.3/@contRefs.2"/>
+    <components name="Kitchen.window" contRefs="//@urndef/@specDiagrams.3/@contRefs.3"/>
+  </urndef>
+</urn:URNspec>

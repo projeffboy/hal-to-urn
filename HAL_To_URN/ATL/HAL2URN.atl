@@ -1,0 +1,302 @@
+-- @path URN=/seg.jUCMNav/src/seg/jUCMNav/emf/urn.ecore
+-- @path HAL=/HAL/model/hal.ecore
+
+
+module HAL2URN;
+create OUT: URN from IN: HAL;
+
+rule HAL2URN {
+	from
+		hal: HAL!HAL
+	to
+		urn: URN!URNspec (
+			name <- hal.password,
+			author <- 'jeffYuelin',
+			created <- 'March 26, 2022 at 7:18:02 PM ED',
+			modified <- 'March 26, 2022 at 7:20:32 PM EDT',
+			specVersion <- '2',
+			urnVersion <- '1.27',
+			nextGlobalID <- '22',
+			urndef <- urndef
+		),
+		urndef: URN!URNdefinition (
+			specDiagrams <- hal.rules,
+			responsibilities <- HAL!Command.allInstances(),
+			components <- HAL!Device.allInstances() -> select(device | device.type.
+					oclIsTypeOf(HAL!Actuator))
+		)
+}
+
+rule AutomationRule2UCMmap {
+	from
+		aRule: HAL!AutomationRule
+	to
+		ucm: URN!UCMmap (
+			nodes <- start,
+			nodes <- endFail,
+			nodes <- endPassAndDone,
+			name <- aRule.name
+		),
+		-- points
+		start: URN!StartPoint (
+			name <- 'checkRule',
+			label <- startLabel,
+			succ <- ncStart
+		),
+		endFail: URN!EndPoint (
+			name <- 'ruleNotTriggered',
+			label <- endFailLabel,
+			pred <- ncFail
+		),
+		endPassAndDone: URN!EndPoint (
+			name <- 'ruleTriggered',
+			label <- endPassLabel,
+			pred <- ncPass
+		),
+		-- labels
+		startLabel: URN!NodeLabel,
+		endFailLabel: URN!NodeLabel,
+		endPassLabel: URN!NodeLabel,
+		-- connections
+		ncStart: URN!NodeConnection (
+			diagram <- ucm
+		),
+		ncFail: URN!NodeConnection (
+			diagram <- ucm
+		),
+		ncPass: URN!NodeConnection (
+			diagram <- ucm,
+			target <- aRule.actions -> first()
+		),
+		ncPassAndDone: URN!NodeConnection (
+			diagram <- ucm,
+			source <- aRule.actions -> last(),
+			target <- endPassAndDone
+		)
+	do {
+		thisModule.newJunction(aRule.precondition, ncStart, ncFail, ncPass, ucm);
+	}
+}
+
+rule newJunction(cond: HAL!BinaryExpression, start: URN!StartPoint, fail: URN!EndPoint,
+		pass: URN!EndPoint, ucm: URN!UCMmap) {
+	do {
+		if (cond.oclIsTypeOf(HAL!AtomicRelationalTerm)) {
+			thisModule.newAtomicTerm(cond, start, fail, pass, ucm);
+		} else if (cond.oclIsTypeOf(HAL!CompoundRelationalTerm)) {
+			if (cond.operator = #AND) {
+				thisModule.newAndExpr(cond, start, fail, pass, ucm);
+			} else if (cond.operator = #OR) {
+				thisModule.newOrExpr(cond, start, fail, pass, ucm);
+			}
+		}
+	}
+}
+
+rule newAndExpr(cond: HAL!CompoundRelationalTerm, start: URN!NodeConnection, fail:
+		URN!NodeConnection,
+		pass: URN!NodeConnection, ucm: URN!UCMmap) {
+	to
+		join: URN!OrJoin(
+			pred <- fail1,
+			pred <- fail2,
+			succ <- fail,
+			diagram <- ucm
+		),
+		
+		fail1: URN!NodeConnection (
+			diagram <- ucm
+		),
+		fail2: URN!NodeConnection (
+			diagram <- ucm
+		),
+		pass1: URN!NodeConnection (
+			diagram <- ucm
+		)
+	do {
+		thisModule.newJunction(cond.LHS, start, fail1, pass1, ucm);
+		thisModule.newJunction(cond.RHS, pass1, fail2, pass, ucm);
+	}
+}
+
+rule newOrExpr(cond: HAL!CompoundRelationalTerm, start: URN!NodeConnection, fail:
+		URN!NodeConnection,
+		pass: URN!NodeConnection, ucm: URN!UCMmap) {
+	to
+		join: URN!OrJoin(
+			pred <- pass1,
+			pred <- pass2,
+			succ <- pass,
+			diagram <- ucm
+		),
+		fail1: URN!NodeConnection (
+			diagram <- ucm
+		),
+		pass1: URN!NodeConnection (
+			diagram <- ucm
+		),
+		pass2: URN!NodeConnection (
+			diagram <- ucm
+		)
+	do {
+		thisModule.newJunction(cond.LHS, start, fail1, pass1, ucm);
+		thisModule.newJunction(cond.RHS, fail1, fail, pass2, ucm);
+	}
+}
+
+rule newAtomicTerm(atomic: HAL!AtomicRelationalTerm, start: URN!NodeConnection, fail:
+		URN!NodeConnection,
+		pass: URN!NodeConnection, ucm: URN!UCMmap) {
+	to
+		fork: URN!OrFork (
+			pred <- start,
+			succ <- fail,
+			succ <- pass,
+			diagram <- ucm
+		),
+		condFail: URN!Condition (
+			label <- 'else'
+		),
+		condPass: URN!Condition (
+			label <- let condition: String =
+					atomic.sensor.name + ' IN ' + atomic.sensor.getRoom().name + ' ' +
+							atomic.getMathSymbol() + ' ' + atomic.comparedAgainstValue
+				in
+					if atomic.negated then
+						'NOT (' + condition + ')'
+					else
+						condition
+					endif
+		)
+	do {
+		fail.condition <- condFail;
+		pass.condition <- condPass;
+	}
+}
+
+rule newFork(atomic: HAL!AtomicRelationalTerm, ucm: URN!UCMmap) {
+	to
+		t: URN!OrFork (
+			-- pred <-
+			succ <- ncFail,
+			succ <- ncPass,
+			diagram <- ucm
+		),
+		ncFail: URN!NodeConnection (
+			-- target <-
+			diagram <- ucm,
+			condition <- condFail
+		),
+		ncPass: URN!NodeConnection (
+			-- target <-
+			diagram <- ucm,
+			condition <- condPass
+		),
+		condFail: URN!Condition (
+			label <- 'else'
+		),
+		condPass: URN!Condition (
+			label <- let condition: String =
+					atomic.sensor.name + ' IN ' + atomic.sensor.getRoom().name + ' ' +
+							atomic.getMathSymbol() + ' ' + atomic.comparedAgainstValue
+				in
+					if atomic.negated then
+						'NOT (' + condition + ')'
+					else
+						condition
+					endif
+		)
+}
+
+rule Command2Responsibility {
+	from
+		s: HAL!Command
+	to
+		t: URN!Responsibility (
+			name <- s.name
+		)
+}
+
+rule Device2Component {
+	from
+		s: HAL!Device (
+			s.type.oclIsTypeOf(HAL!Actuator)
+		)
+	to
+		t: URN!Component (
+			name <- s.getRoom().name + '.' + s.name
+		)
+}
+
+rule Action2Refs {
+	from
+		a: HAL!Action
+	to
+		r: URN!RespRef (
+			label <- nl,
+			respDef <- a.command,
+			diagram <- a.getAutomationRule()
+		),
+		c: URN!ComponentRef (
+			width <- 141,
+			height <- 114,
+			label <- cl,
+			nodes <- r,
+			contDef <- a.actuator,
+			diagram <- a.getAutomationRule()
+		),
+		nl: URN!NodeLabel,
+		cl: URN!ComponentLabel
+	do {
+		if (a.getAutomationRule().actions.last() <> a) {
+			thisModule.connectToResp(a, r);
+		}
+	}
+}
+
+rule connectToResp(a: HAL!Action, r: URN!RespRef) {
+	to
+		t: URN!NodeConnection (
+			diagram <- a.getAutomationRule(),
+			source <- r,
+			target <- a.getNextAction()
+		)
+}
+
+helper context HAL!Device def: getRoom(): HAL!Room =
+	HAL!Room.allInstances() -> any(r | r.devices.includes(self));
+
+helper context HAL!Action def: getAutomationRule(): HAL!AutomationRule =
+	HAL!AutomationRule.allInstances() -> any(aRule | aRule.actions.includes(self));
+
+helper context HAL!Action def: getNextAction(): HAL!Action =
+	-- assume self is not the last action of its rule (or else it will error)
+	self.getAutomationRule().actions -> at(self.getAutomationRule().actions ->
+			indexOf(self) + 1);
+				
+helper context HAL!AtomicRelationalTerm def: getMathSymbol(): String =
+	if self.operator = #EQUAL then
+		'='
+	else
+		if self.operator = #GREATERTHAN then
+			'>'
+		else
+			if self.operator = #GREATERTHANOREQUAL then
+				'>='
+			else
+				if self.operator = #LESSTHAN then
+					'<'
+				else
+					if self.operator = #LESSTHANOREQUAL then
+						'<='
+					else
+						if self.operator = #NOTEQUAL then
+							'!='
+						else
+							''
+						endif
+					endif
+				endif
+			endif
+		endif
+	endif;
